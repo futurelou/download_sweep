@@ -40,7 +40,7 @@ class MsSQL(DB_conn):
 def main():
     Driver="Louis"
     Server="LOUIS-PC"
-    Database="Crypto_market_prices"
+    Database="Sweeper"
     Trusted_Connection="yes"
     
 
@@ -49,7 +49,7 @@ def main():
 
     
     
-    print(mssql.query('Select * from symbols'))
+    print(mssql.query('Select * from sweeper_rules'))
 
 
      
