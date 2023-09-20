@@ -2,7 +2,7 @@
 from enum import Enum
 class HandlerType(Enum):
     SFTP = 'sftp'
-    FTP = 'sftp'
+    FTP = 'ftp'
     FILE = 'file'
     RSYNC = 'rsync'
     TELNET = 'telnet'

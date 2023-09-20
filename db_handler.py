@@ -1,5 +1,6 @@
 import sqlalchemy
 import pandas as pd
+import pyodbc
 
 class DB_conn:
 
@@ -26,16 +27,17 @@ class MsSQL(DB_conn):
     def query(self,query):
             result  = pd.read_sql(query, con= self.con)
             return result
+    
+    def df_to_sql(self, data, table_name):
+          data.to_sql(name = table_name, con = self.con, if_exists = 'append')
 
     def close(self):
             pass
       
+
+
+   
         
-
-    
-
-
-
 
 def main():
     Driver="Louis"
@@ -43,22 +45,12 @@ def main():
     Database="Sweeper"
     Trusted_Connection="yes"
     
-
-
     mssql = MsSQL(driver=Driver, Server=Server, Database=Database,Trusted_Connection=Trusted_Connection, dbtype="MSSQL")
 
-    
     
     print(mssql.query('Select * from sweeper_rules'))
 
 
      
-
-
-
-
-
-
-
 if __name__ == "__main__":
     main()
