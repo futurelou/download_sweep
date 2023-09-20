@@ -17,13 +17,9 @@ class Handler:
             data = data_to_check.read()
             return hashlib.md5(data).hexdigest()
         
-    def md5_check(self , new_data):
-        Server="LOUIS-PC"
-        Database="Sweeper"
-        db = MsSQL(Server=Server,Database=Database)
-        history = db.query('select * from sweeper_rules')
+    def md5_check(self , new_data, hist):
 
-        if new_data in history['md5_check']:
+        if new_data in hist:
             return True
         else:
             return False
@@ -83,7 +79,10 @@ def main():
     
     h = Handler()
     md5 = h.get_md5(data=r"C:\Users\louie\Crypto_Data\1_hour_interval_crypto_data")
-    print(md5)
+    md1 = h.get_md5(data=r"C:\Users\louie\Crypto_Data\1_min_interval_crypto_data")
+
+    print(h.md5_check(new_data=md5, hist=md1))
+    print(md1)
 
     
 
