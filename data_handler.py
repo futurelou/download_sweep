@@ -30,12 +30,12 @@ class SFTP_Handler(Handler):
     def __init__(self,srcpath , dstpath, host, username, password ):
         super().__init__(srcpath , dstpath, host, username, password)
 
-        self.con = pysftp.Connection(host=self.hostname, username=self.hostname,password=self.password)
+        self.con = pysftp.Connection(host=self.hostname, username=self.username,password=self.password)
 
     def get_file_from_sftp(self):
-        tmp_storage = []
-        self.con.get(remotepath=self.srcPath, localpath=tmp_storage)
-        return tmp_storage
+        
+        self.con.get(remotepath=self.srcPath, localpath=self.dstPath)
+       
         
     
     #local dir "C:\Users\louie\sweeper_tmp_data"
@@ -83,6 +83,11 @@ def main():
 
     print(h.md5_check(new_data=md5, hist=md1))
     print(md1)
+
+    s = SFTP_Handler(host='louis-pc', username='louie', password='Zoezeus16701!',srcpath=r"C:\Users\louie\Crypto_Data\1_hour_interval_crypto_data", dstpath=r"C:\Users\louie\sweeper_tmp_data\test.data")
+    s.get_file_from_sftp()
+
+
 
     
 
