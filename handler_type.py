@@ -1,3 +1,4 @@
+#defines a valid list of handlers 
 
 from enum import Enum
 class HandlerType(Enum):
@@ -6,7 +7,6 @@ class HandlerType(Enum):
     FILE = 'file'
     RSYNC = 'rsync'
     TELNET = 'telnet'
-
 
     @classmethod 
     def has_value(cls, value):
