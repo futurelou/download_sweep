@@ -14,7 +14,7 @@ class Parser:
 
         self.url_parse()
         
-        
+   # pull important information from a url format      
     def url_parse(self):
 
         parsed_URL = urlparse(self.rules)
@@ -26,48 +26,50 @@ class Parser:
         self._password = parsed_URL.password
 
     
+    #saves host name 
 
     def get_host(self):
        return self._host
     
-    
+    # saves type of handler 
     def get_type(self):
         return self._type
     
-
+    # gets  path 
     def get_path(self):
         return self._path
     
+    # returns username for connection 
     def get_username(self):
         return self._username
     
-    
+    #returns passwork for connection
     def get_password(self):
         return self._password
     
 
-
+    # allows to set a host name 
     def set_host(self, hostname):
        self._host = hostname
        return hostname
     
-    
+    # set a type of handler 
     def set_type(self, type):
         self._type = type
         return type
     
     
-
+    # set a  path 
     def set_path(self, path):
         self._path = path 
         return path 
     
-    
+    # set a username 
     def set_username(self, username):
         self._username = username
         return username
     
-    
+    # set a password
     def set_password(self, password):
         self._password = password
         return password
