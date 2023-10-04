@@ -1,3 +1,4 @@
+# This project is still under development
 # download_sweep
 
 A framework for downloading end of day data and sweeping to different destination directories on different servers. It has the ability to compress and decompress files as well a perform md5 checks in order to stop redundant file tranfers. This framework will leverage exsisting utilities such as wget, sftp, ftp, rsync etc...
