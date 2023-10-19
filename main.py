@@ -2,6 +2,9 @@ from db_handler import MsSQL
 import pandas as pd
 import glob
 from sqlalchemy import text
+import time
+import os
+
 
 
 
@@ -15,32 +18,20 @@ def main():
     
     mssql = MsSQL(driver=Driver, Server=Server, Database=Database,Trusted_Connection=Trusted_Connection, dbtype="MSSQL")
 
-    finaldf = []
-    data  =glob.glob(r"Z:\researchDB\closeQuotes\SSE\2010*")
+   
+    data  =glob.glob(r"Z:\researchDB\closeQuotes\SSE\201*")
     file1 = glob.glob(r'Z:\researchDB\closeQuotes\SSE\20101014')
-    count = 0 
+   
+    
     for file in data:
+        print(file)
         
-        #data = mssql.query(f"""BULK INSERT closeQuotes
-        #                   FROM '{file}'
-        #                    WITH (                         
-        ##                FIRSTROW = 2,
-        #               FIELDTERMINATOR = ',', 
+        #mssql.insert_data(incsv=file, dbtable='closeQuotes')
 
-        #               ROWTERMINATOR = '\n', 
-        #            TABLOCK);
-        #                    """)
+        #df = pd.read_csv(file)
+        #mssql.df_to_sql(df, 'closeQuotes')
+    
         
-        res = mssql.con.connect()
-        res.execute(text(f"""BULK INSERT closeQuotes
-                           FROM '{file}'
-                            WITH (                         
-                        FIRSTROW = 2,
-                       FIELDTERMINATOR = ',', 
-                       
-                       ROWTERMINATOR = '\n', 
-                    TABLOCK);
-                           """))
       
         
         

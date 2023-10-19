@@ -1,95 +1,114 @@
 import tarfile 
 from tqdm import tqdm
 import os 
+import tempfile
 import zipfile
 class compress: 
 
-    def __init__(self, file, path = None) :
+    
+    def __init__(self, file, source_dir = None) :
         self.file = file
-        self.path = path
+        self.source_dir = source_dir
+        
 
 
 class compress_tar(compress):
 
-    def __init__(self, file, path ,tar_file):
-        self.tar_file = tar_file
-        super().__init__(file, path)
+    def __init__(self, source_dir = None , compression_type = None):
+        self.compression_type = compression_type
+        self.source_dir = source_dir
 
-
-#write multiple files into a tar and compress it 
-    def compress(self):
-        tar = tarfile.open(self.tar_file, mode= 'w:gz')
-
-        progress = tqdm(self.file)
-
-        for member in progress:
-            tar.add(member)
-
-            progress.set_description(f"Compressing {member}")
+    def compression_types():
+        return ['gz', 'bz2', 'xz']
         
-        tar.close
 
-# open files one by one from a tar
-    def decompress(self):
+    def make_tarfile(self,output_filename ):
+        with tarfile.open(output_filename, f"w:{self.compression_type}") as tar:
+            tar.add(self.source_dir, arcname=os.path.basename(self.source_dir))
 
-        tar = tarfile.open(self.tar_file, mode="r:gz")
 
-        if self.file is None:
-            
-            self.file = tar.getmembers()
+    def extract_tarfile(self, tar_file, dest_dir):
+        file = tarfile.open(tar_file)
+        file.extractall(dest_dir)
 
-        progress = tqdm(self.file)
+    def add_to_tar(self,file):
+        if not os.path.exists(self.source_dir):
+            t1 = tarfile.open(self.source_dir, f'r:{self.compression_type}')
+            t1.close()
 
-        for member in progress:
-            tar.extract(member, path= self.path)
 
-            progress.set_description(f"Extracting {member.name}")
+        t1 = tarfile.open(self.source_dir, f'r:{self.compression_type}')
+        tmp = "-" + self.source_dir
+        t2 = tarfile.open(tmp, f'w:{self.compression_type}')
+        t1.extractall()
+        for m in t1.members():
+            t2.add(m)
+            os.remove(m.path)
 
-        tar.close()
+        t2.add(file)
+        t2.close()
+        t1.close()
+        os.remove(file)
+        os.rename(tmp, self.source_dir)
+
         
- # zip files or unzip files        
-class Zip(compress):
-    def __init__(self, file, filename,pwd = None ,path=None):
-        self.filename = filename
-        self.pwd = pwd
-        super().__init__(file, path)
+        
 
-# zipping a directory 
-    def zip_directory(self):
 
-        directory = self.path
-        files = os.listdir(directory)
+class zip_compress(compress):
 
-        with zipfile.ZipFile(self.filename, 'w') as zip:
-            for file in files:
-                file_path = os.path.join(directory,file)
-                zip.write(file_path)
+    def __init__(self, src = None, dst = None  ):
+        self.src = src
+        self.dst = dst
 
-# add a file to a already zipped directory 
-    def add_to_zip(self):
 
-        directory = self.path
-        file_name = self.file
+    def compress_single_file(self):
+        with zipfile.ZipFile(self.dst , mode = 'w') as zf:
+            zf.write(self.src)
 
-        with zipfile.ZipFile(self.filename, 'a') as zip:
+    def compress_dir(self):
+        with zipfile.ZipFile(self.dst) as zf:
+            for f in self.src:
+                zf.write(f)
 
-            file_path = os.path.join(directory,file_name)
-            zip.write(filename=file_path, arcname=file_name)
 
-# unzip everything that was in a zipped directory 
-    def unzip_all(self):
-        with zipfile.ZipFile(self.path, 'r') as zip:
-            zip.extractall(self.filename, pwd=self.pwd)
+    def extract_single_file(self, file):
+        with zipfile.ZipFile(self.src, mode='r') as zf:
+            zf.extract(file, path=self.dst)
+
+    def extract_all(self):
+        with zipfile.ZipFile(self.src, mode='r') as zf:
+            zf.extractall(self.dst)
+
+    def append_to_zip(self, file):
+        with zipfile.ZipFile(self.src, mode='a') as zf:
+            zf.write('file')
+
 
     
-# pull one file out of a zipped directory 
-    def unzip_one_file(self):
+           
 
-        with zipfile.ZipFile(self.path, 'r') as zip:
-            zip.extract(self.filename, pwd=self.pwd)
+        
+
+
+        
+
+
+
 
 
 
             
+
+def main():
+
+  comp = compress_tar(source_dir=r"C:\Users\louie\Crypto_Data", compression_type='gz')
+  #comp.make_tarfile(output_filename='cryptoTar')
+
+  
+  #comp.add_to_tar(file=r"C:\Users\louie\Crypto_Data\1_min_interval_crypto_data - Copy" ,source_tar=r'C:\Users\louie\download_sweep\cryptoTar')
+     
+if __name__ == "__main__":
+    main()
 
 
