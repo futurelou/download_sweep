@@ -1,6 +1,7 @@
 import sqlalchemy
 import pandas as pd
 from sqlalchemy import text
+import psycopg2
 
 class DB_conn:
 
@@ -48,9 +49,23 @@ class MsSQL(DB_conn):
           con.commit()
           con.close
           return res
+    
+class PostGres(DB_conn):
+      
+      def __init__(self,  ):
+            
+
+            
+
+      
           
 
       
+
+
+
+
+
 
 
    
