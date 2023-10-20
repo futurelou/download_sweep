@@ -79,7 +79,7 @@ class PostGres(DB_conn):
 
         except(Exception, psycopg2.Error) as error:
              print(f'error connecting to the database: {error}')
-             
+
 
     def insert_file_into_table(self, file, table):
          qry = f'copy {table} from {file}'
@@ -100,6 +100,18 @@ class PostGres(DB_conn):
 
          except(Exception, psycopg2.Error) as error:
              print(f'error performing this action: {error}')
+
+
+class MySql(DB_conn):
+     
+     def __init__(self, database, user, password):
+      
+        self.database = database 
+        self.user = user
+        self.password = password 
+        
+        self.conn = 
+     
          
 
 
