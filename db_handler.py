@@ -2,6 +2,7 @@ import sqlalchemy
 import pandas as pd
 from sqlalchemy import text
 import psycopg2
+import MySQLdb
 
 class DB_conn:
 
@@ -110,7 +111,26 @@ class MySql(DB_conn):
         self.user = user
         self.password = password 
         
-        self.conn = 
+        self.conn = MySQLdb.connect(database = self.database,user = self.user,password= self.password)
+
+     def query(self, qry):
+          try:
+           cursor =  self.conn.cursor()
+           cursor.execute(qry)
+           
+           try:
+                result = cursor.fetchall()
+                return result
+           except(Exception) as error:
+                print('this aint working')            
+           cursor.commit()
+
+          except(Exception, psycopg2.Error) as error:
+             print(f'error connecting to the database: {error}')
+          
+          
+
+     
      
          
 
