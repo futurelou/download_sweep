@@ -51,7 +51,7 @@ class compress_tar(compress):
         os.remove(file)
         os.rename(tmp, self.source_dir)
 
-        
+
         
 
 
@@ -102,11 +102,8 @@ class zip_compress(compress):
 
 def main():
 
-  comp = compress_tar(source_dir=r"C:\Users\louie\Crypto_Data", compression_type='gz')
-  #comp.make_tarfile(output_filename='cryptoTar')
-
-  
-  #comp.add_to_tar(file=r"C:\Users\louie\Crypto_Data\1_min_interval_crypto_data - Copy" ,source_tar=r'C:\Users\louie\download_sweep\cryptoTar')
+  comp = zip_compress(src=r'\Users\louie\Crypto_Data',dst=r'\Users\louie\download_sweep\test')
+  comp.compress_dir()
      
 if __name__ == "__main__":
     main()
