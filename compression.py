@@ -102,8 +102,8 @@ class zip_compress(compress):
 
 def main():
 
-  comp = zip_compress(src=r'\Users\louie\Crypto_Data',dst=r'\Users\louie\download_sweep\test')
-  comp.compress_dir()
+  comp = zip_compress(src=r"Z:\trading\data\FactSet\datafeeds\estimates\fe_basic_ap\fe_basic_ap_full_677.zip",dst=r'\Users\louie\download_sweep\estimates')
+  comp.extract_all()
      
 if __name__ == "__main__":
     main()

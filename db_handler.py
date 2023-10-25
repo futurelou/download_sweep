@@ -40,12 +40,20 @@ class MsSQL(DB_conn):
     def close(self):
             pass
     
-    def bulk_insert_data(self, incsv, dbtable):
-          qry = text("BULK INSERT " + dbtable + " FROM '" + incsv + "' WITH (DATAFILETYPE = 'char', FIRSTROW = 2, ROWTERMINATOR = '0x0a' )")
+    def insert_file_into_table(self, file, dbtable):
+          qry = text("BULK INSERT " + dbtable + " FROM '" + file + "' WITH (DATAFILETYPE = 'char', FIRSTROW = 2, ROWTERMINATOR = '0x0a' )")
           con = self.conn.connect()
           con.execute(qry)
           con.commit()
           con.close
+
+    def table_to_file(self, filename, query):
+         
+         self.conn.cursor()
+         data = self.query(query=query)
+         file = open(filename, 'w')
+         file.write(data)
+         file.close
 
     def query(self, query):
           qry = text(query)
@@ -145,16 +153,17 @@ class MySql(DB_conn):
 def main():
     Driver="Louis"
     Server="LOUIS-PC"
-    Database="Research"
+    Database="Sweeper"
     Trusted_Connection="yes"
     
-    #mssql = MsSQL(driver=Driver, Server=Server, Database=Database,Trusted_Connection=Trusted_Connection, dbtype="MSSQL")
+    mssql = MsSQL(driver=Driver, Server=Server, Database=Database,Trusted_Connection=Trusted_Connection, dbtype="MSSQL")
 
     
-    psg = PostGres( database='PSG_TEST',user='postgres', password='Zoezeus16701')
-    print(psg.query('select * from test'))
-    print(psg.sql_to_df_('select * from test'))
+    #psg = PostGres( database='PSG_TEST',user='postgres', password='Zoezeus16701')
 
+    print(mssql.query('select * from seeper_rules'))
+
+    
 
      
 if __name__ == "__main__":
