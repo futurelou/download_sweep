@@ -102,7 +102,7 @@ class zip_compress(compress):
 
 def main():
 
-  comp = zip_compress(src=r"Z:\trading\data\FactSet\datafeeds\estimates\fe_basic_ap\fe_basic_ap_full_677.zip",dst=r'\Users\louie\download_sweep\estimates')
+  comp = zip_compress(src=r"Z:\trading\data\FactSet\datafeeds\documents\docs_ref\ref_v2_schema_37.zip",dst=r"C:\Users\louie\schemas\ref_v2_schema_37")
   comp.extract_all()
      
 if __name__ == "__main__":

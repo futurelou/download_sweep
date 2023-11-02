@@ -32,7 +32,6 @@ def main():
         #mssql.df_to_sql(df, 'closeQuotes')
     
         
-      
         
         
 
